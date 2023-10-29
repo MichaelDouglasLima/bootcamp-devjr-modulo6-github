@@ -1,3 +1,4 @@
+var userHistory = [];
 
 function search() {
     var username = document.getElementById("inputUserName").value;
@@ -7,6 +8,12 @@ function search() {
     $.getJSON(url, (user) => {
 
         showUserData(user);
+
+        if (isNew(user)) {
+            save(user);
+            showNewUserHistory(user);
+        }
+        
         clearError();
 
     }).fail( () => {
@@ -15,6 +22,23 @@ function search() {
         showError("Não Encontrado!");
 
     });
+}
+
+function save(user) {
+    userHistory.push(user);
+}
+
+function isNew(user) {
+    return userHistory.filter( (u) => u.login === user.login).length == 0;
+}
+
+function showNewUserHistory(user) {
+    document.getElementById("history").innerHTML += `
+            <div class="col">
+                <img src="${user.avatar_url}" alt="Imagem Usuario" width="110" height="110" class="shadow rounded">
+            </div>
+        `;
+
 }
 
 function showError(msg) {
