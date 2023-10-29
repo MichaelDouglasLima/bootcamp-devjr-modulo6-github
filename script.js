@@ -1,18 +1,17 @@
 
 function search() {
-
     var username = document.getElementById("inputUserName").value;
 
     var url = `https://api.github.com/users/${username}`;
 
     $.getJSON(url, (user) => {
 
-        setUserData(user);
+        showUserData(user);
         clearError();
 
     }).fail( () => {
 
-        setUserData({});
+        showUserData({});
         showError("Não Encontrado!");
 
     });
@@ -26,7 +25,7 @@ function clearError() {
     document.getElementById("error").innerHTML = "";
 }
 
-function setUserData(user) {
+function showUserData(user) {
     document.getElementById("name").innerHTML       = user.name     || "";
     document.getElementById("html_url").innerHTML   = user.html_url || "";
     document.getElementById("company").innerHTML    = user.company  || "";
